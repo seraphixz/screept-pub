@@ -1990,33 +1990,30 @@ var getViewer = function(prevChapter, nextChapter) {
     }
   });
   // zoom
-  var lastZoom, originalZoom,newZoomPostion;
-  var changeZoom = function(action, elem) {
-    var ratioZoom = (document.documentElement.scrollTop || document.body.scrollTop)/(document.documentElement.scrollHeight || document.body.scrollHeight);
-    var curImage = getCurrentImage();
-    if(!lastZoom) {
-      lastZoom = originalZoom = Math.round(curImage.clientWidth / window.innerWidth * 100);
-    }
-    var zoom = lastZoom;
-    if(action === '+') zoom += 5;
-    if(action === '-') zoom -= 5;
-    if(action === '=') {
-      lastZoom = originalZoom;
-      addStyle('image-width', true, '');
-      showFloatingMsg('reset zoom', 500);
-      newZoomPostion =(document.documentElement.scrollHeight || document.body.scrollHeight)*ratioZoom;
-      window.scroll(0, newZoomPostion);
-      return;
-    }
-    zoom = Math.max(10, Math.min(zoom, 100));
-    lastZoom = zoom;
-    addStyle('image-width', true, toStyleStr({
-      width: zoom + '%'
-    }, '.ml-images img'));
-    showFloatingMsg('zoom: ' + zoom + '%', 500);
+var lastZoom = 75, originalZoom = 75, newZoomPostion;
+var changeZoom = function(action, elem) {
+  var ratioZoom = (document.documentElement.scrollTop || document.body.scrollTop)/(document.documentElement.scrollHeight || document.body.scrollHeight);
+  var curImage = getCurrentImage();
+  var zoom = lastZoom;
+  if(action === '+') zoom += 5;
+  if(action === '-') zoom -= 5;
+  if(action === '=') {
+    lastZoom = originalZoom;
+    addStyle('image-width', true, '');
+    showFloatingMsg('reset zoom', 500);
     newZoomPostion =(document.documentElement.scrollHeight || document.body.scrollHeight)*ratioZoom;
     window.scroll(0, newZoomPostion);
-  };
+    return;
+  }
+  zoom = Math.max(10, Math.min(zoom, 100));
+  lastZoom = zoom;
+  addStyle('image-width', true, toStyleStr({
+    width: zoom + '%'
+  }, '.ml-images img'));
+  showFloatingMsg('zoom: ' + zoom + '%', 500);
+  newZoomPostion =(document.documentElement.scrollHeight || document.body.scrollHeight)*ratioZoom;
+  window.scroll(0, newZoomPostion);
+};
   var goToPage = function(toWhichPage) {
   	var curId = getCurrentImage().id;
   	var nextId = curId.split('-');
